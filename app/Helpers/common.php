@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
+use App\Models\ShoppingCart;
 function getTopNav()
 {
 
@@ -16,6 +17,32 @@ function getTopNav()
     $str = buildTreeView($arr,0);
     return $str;
 
+}
+
+function getCartItems()
+{
+    if(session()->has('FRONT_USER_LOGIN'))
+        {
+           $user_id = session()->get('FRONT_USER_LOGIN');
+            $user_type = "Reg";
+        }
+        else{
+            $user_id = getUserTempId();
+            $user_type = "Non-Reg";
+        }
+
+        $items = DB::table('shopping_carts')
+        ->leftJoin('products', 'products.id', '=', 'shopping_carts.product_id')
+        ->leftJoin('product_attr', 'product_attr.id', '=', 'shopping_carts.product_attr_id')
+        ->leftjoin('sizes', 'sizes.id', '=' , 'product_attr.size_id')
+        ->leftjoin('colors', 'colors.id', '=' , 'product_attr.color_id')
+        ->where(['user_id' => $user_id])
+        ->where(['user_type' => $user_type])
+        ->select('shopping_carts.qty', 'products.name', 'products.image', 'products.slug',
+         'sizes.size', 'colors.color', 'product_attr.price', 'products.id as pid', 'product_attr.id as attr_id')
+        ->get();
+
+       return $items;
 }
 
 

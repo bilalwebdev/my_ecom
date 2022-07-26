@@ -399,11 +399,19 @@ function add_to_cart(id, size_str_id, color_str_id) {
        jQuery.ajax({
            url: '/add-to-cart',
            data: jQuery('#frmAddToCart').serialize(),
+           dataType: 'json',
            type: 'post',
            success: function(result)
            {
-              alert('Success');
-               // alert('jhjj');
+              alert('product'+result.msg);
+              if(result.t_items)
+              {
+                  jQuery('aa-cart-notify').html(result.t_items);
+              }
+              else{
+                jQuery('aa-cart-notify').html('0');
+                jQuery('aa-cartbox-summary').remove();
+              }
            }
        });
     }
@@ -415,6 +423,14 @@ function deleteCartProduct(pid, size, color, attr_id)
     jQuery('#size_id').val(size);
     jQuery('#qty').val(0);
     jQuery('#cart_box'+attr_id).remove();
+    add_to_cart(pid, size, color);
+}
+function deletePopUpCartProduct(pid, size, color, attr_id)
+{
+    jQuery('#color_id').val(color);
+    jQuery('#size_id').val(size);
+    jQuery('#qty').val(0);
+    jQuery('#popup'+attr_id).remove();
     add_to_cart(pid, size, color);
 }
 function updateQty(pid, size, color, attr_id, price)
