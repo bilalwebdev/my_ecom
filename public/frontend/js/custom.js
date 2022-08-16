@@ -416,12 +416,12 @@ function add_to_cart(id, size_str_id, color_str_id) {
                  else
                  {
 
-                    alert("Product " + result.msg);
-                    // swal(
-                    //     "Good Job",
-                    //     "Product " + result.msg + " Successfully :)",
-                    //     "success"
-                    // );
+                   // alert("Product " + result.msg);
+                    swal(
+                        "Good Job",
+                        "Product " + result.msg + " Successfully :)",
+                        "success"
+                    );
                     if (result.t_items !== 0) {
                         jQuery(".aa-cart-notify").html(result.t_items);
                         var html = '<ul>';
