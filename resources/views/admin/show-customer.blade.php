@@ -13,9 +13,6 @@
 </div>
     @endif
         <h1>Customers</h1>
-        <a href="manage-size">
-            <button type="button" class="btn btn-success mt-3">Add Customer</button>
-        </a>
         <div class="row m-t-30">
             <div class="col-lg-12">
             <div class="table-responsive m-b-40">

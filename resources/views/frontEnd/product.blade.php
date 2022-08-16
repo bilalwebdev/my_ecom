@@ -72,7 +72,7 @@
                                                     {{ $product_attr[$product[0]->id][0]->mrp }}</del></span>
                                             <span class="aa-product-view-price">Rs
                                                 {{ $product_attr[$product[0]->id][0]->price }}</span>
-                                            <p>{{ $product[0]->short_desc }}</p>
+                                            <p>{!! $product[0]->short_desc !!}</p>
                                             @if ($product_attr[$product[0]->id][0]->size_id > 0)
                                             <h4>Size</h4>
                                             <div class="aa-prod-view-size">
@@ -142,7 +142,7 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" id="description">
-                                    {{ $product[0]->desc }}
+                                    {!!  $product[0]->desc !!}
                                 </div>
                                     <div class="tab-pane fade" id="tech">
                                         {!! $product[0]->technical_specifications !!}
@@ -155,60 +155,54 @@
                                     </div>
                                     <div class="tab-pane fade" id="review">
                                         <div class="aa-product-review-area">
-                                            <h4>2 Reviews for T-Shirt</h4>
+                                            @if(isset($product_reviews[0]))
+                                            <h4>@php
+                                                echo count($product_reviews)
+                                            @endphp
+                                                Review(S) for {{  $product[0]->name  }}</h4>
+                                            @foreach ($product_reviews as $review)
                                             <ul class="aa-review-nav">
                                                 <li>
                                                     <div class="media">
-                                                        <div class="media-left">
-                                                            <a href="#">
-                                                                <img class="media-object" src="img/testimonial-img-3.jpg"
-                                                                    alt="girl image">
-                                                            </a>
-                                                        </div>
                                                         <div class="media-body">
-                                                            <h4 class="media-heading"><strong>Marla Jobs</strong> -
-                                                                <span>March 26, 2016</span></h4>
-                                                            <div class="aa-product-rating">
-                                                                <span class="fa fa-star"></span>
-                                                                <span class="fa fa-star"></span>
-                                                                <span class="fa fa-star"></span>
-                                                                <span class="fa fa-star"></span>
-                                                                <span class="fa fa-star-o"></span>
-                                                            </div>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                                            <h4 class="media-heading"><strong>{{ $review->name }}</strong> -
+                                                                <span>{{ \Carbon\Carbon::parse($review->added_on)->format('M-d-Y') }}</span></h4>
+                                                                <div class="aa-product-rating">
+                                                                    <span class="rating_txt">{{ $review->rating }}</span>
+                                                                </div>
+                                                            <p>{{ $review->review }}</p>
                                                         </div>
                                                     </div>
                                                 </li>
                                             </ul>
+                                            @endforeach
+                                            @else
+                                            <h2>No reviews yet!</h2>
+                                            @endif
                                             <h4>Add a review</h4>
-                                            <div class="aa-your-rating">
-                                                <p>Your Rating</p>
-                                                <a href="#"><span class="fa fa-star-o"></span></a>
-                                                <a href="#"><span class="fa fa-star-o"></span></a>
-                                                <a href="#"><span class="fa fa-star-o"></span></a>
-                                                <a href="#"><span class="fa fa-star-o"></span></a>
-                                                <a href="#"><span class="fa fa-star-o"></span></a>
-                                            </div>
+
                                             <!-- review form -->
-                                            <form action="" class="aa-review-form">
+                                            <form class="aa-review-form" id="frmProductReview">
+                                                <div class="aa-your-rating" style="margin-bottom: 15px">
+                                                    <p>Your Rating</p>
+                                                    <select name="rating" id="" class="form-control " required>
+                                                        <option value="">--Select Rating--</option>
+                                                        <option value="Good">Good</option>
+                                                        <option value="Very Good">Very Good</option>
+                                                        <option value="Fantastic">Fantastic</option>
+                                                        <option value="Bad">Bad</option>
+                                                        <option value="Worst">Worst</option>
+                                                    </select>
+                                                </div>
                                                 <div class="form-group">
                                                     <label for="message">Your Review</label>
-                                                    <textarea class="form-control" rows="3" id="message"></textarea>
+                                                    <textarea class="form-control" name="review" rows="3" id="message" required></textarea>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="name">Name</label>
-                                                    <input type="text" class="form-control" id="name"
-                                                        placeholder="Name">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="email">Email</label>
-                                                    <input type="email" class="form-control" id="email"
-                                                        placeholder="example@gmail.com">
-                                                </div>
-
-                                                <button type="submit"
-                                                    class="btn btn-default aa-review-submit">Submit</button>
+                                                <input type="hidden" name="product_id" id="" value="{{ $product[0]->id }}">
+                                                <button type="submit"   class="btn btn-default aa-review-submit">Submit</button>
+                                                    @csrf
                                             </form>
+                                            <div class="review-msg"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -372,95 +366,7 @@
                    <span class="aa-badge aa-sale" href="#">SALE!</span>
                  </li> --}}
                             </ul>
-                            <!-- quick view modal -->
-                            <div class="modal fade" id="quick-view-modal" tabindex="-1" role="dialog"
-                                aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-hidden="true">&times;</button>
-                                            <div class="row">
-                                                <!-- Modal view slider -->
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <div class="aa-product-view-slider">
-                                                        <div class="simpleLens-gallery-container" id="demo-1">
-                                                            <div class="simpleLens-container">
-                                                                <div class="simpleLens-big-image-container">
-                                                                    <a class="simpleLens-lens-image"
-                                                                        data-lens-image="img/view-slider/large/polo-shirt-1.png">
-                                                                        <img src="img/view-slider/medium/polo-shirt-1.png"
-                                                                            class="simpleLens-big-image">
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="simpleLens-thumbnails-container">
-                                                                <a href="#" class="simpleLens-thumbnail-wrapper"
-                                                                    data-lens-image="img/view-slider/large/polo-shirt-1.png"
-                                                                    data-big-image="img/view-slider/medium/polo-shirt-1.png">
-                                                                    <img src="img/view-slider/thumbnail/polo-shirt-1.png">
-                                                                </a>
-                                                                <a href="#" class="simpleLens-thumbnail-wrapper"
-                                                                    data-lens-image="img/view-slider/large/polo-shirt-3.png"
-                                                                    data-big-image="img/view-slider/medium/polo-shirt-3.png">
-                                                                    <img src="img/view-slider/thumbnail/polo-shirt-3.png">
-                                                                </a>
-
-                                                                <a href="#" class="simpleLens-thumbnail-wrapper"
-                                                                    data-lens-image="img/view-slider/large/polo-shirt-4.png"
-                                                                    data-big-image="img/view-slider/medium/polo-shirt-4.png">
-                                                                    <img src="img/view-slider/thumbnail/polo-shirt-4.png">
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Modal view content -->
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <div class="aa-product-view-content">
-                                                        <h3>T-Shirt</h3>
-                                                        <div class="aa-price-block">
-                                                            <span class="aa-product-view-price">$34.99</span>
-                                                            <p class="aa-product-avilability">Avilability: <span>In
-                                                                    stock</span></p>
-                                                        </div>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                            Officiis animi, veritatis quae repudiandae quod nulla porro
-                                                            quidem, itaque quis quaerat!</p>
-                                                        <h4>Size</h4>
-                                                        <div class="aa-prod-view-size">
-                                                            <a href="#">S</a>
-                                                            <a href="#">M</a>
-                                                            <a href="#">L</a>
-                                                            <a href="#">XL</a>
-                                                        </div>
-                                                        <div class="aa-prod-quantity">
-                                                            <form action="">
-                                                                <select name="" id="">
-                                                                    <option value="0" selected="1">1</option>
-                                                                    <option value="1">2</option>
-                                                                    <option value="2">3</option>
-                                                                    <option value="3">4</option>
-                                                                    <option value="4">5</option>
-                                                                    <option value="5">6</option>
-                                                                </select>
-                                                            </form>
-                                                            <p class="aa-prod-category">
-                                                                Category: <a href="#">Polo T-Shirt</a>
-                                                            </p>
-                                                        </div>
-                                                        <div class="aa-prod-view-bottom">
-                                                            <a href="#" class="aa-add-to-cart-btn"><span
-                                                                    class="fa fa-shopping-cart"></span>Add To Cart</a>
-                                                            <a href="#" class="aa-add-to-cart-btn">View Details</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal-dialog -->
-                            </div>
+                           
                             <!-- / quick view modal -->
                         </div>
                     </div>

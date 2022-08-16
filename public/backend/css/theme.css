@@ -14652,3 +14652,13 @@ section {
 .mb10{
     margin-bottom: 10px;
 }
+
+.product img{
+    width: 100px;
+}
+.order-operation{
+    background-color: white;
+    padding: 30px;
+     margin-top: 20px;
+}
+

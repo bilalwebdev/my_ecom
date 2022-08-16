@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\TaxController;
 use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\Admin\HomeBannerController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ReviewController;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Route;
 
@@ -115,6 +117,19 @@ Route::get('/admin/customer', [CustomerController::class, 'customer']);
 Route::get('/admin/customer/status/{status}/{id}', [CustomerController::class, 'status']);
 Route::get('/admin/show-customer/show/{id}', [CustomerController::class, 'show']);
 
+// --------order-------
+
+Route::get('/admin/order', [OrderController::class, 'index']);
+Route::get('/admin/order-details/{id}', [OrderController::class, 'orderDetails']);
+Route::post('/admin/order-details/{id}', [OrderController::class, 'orderTrackDetails']);
+Route::get('/admin/update_order_status/{status}/{id}', [OrderController::class, 'orderStatusChange']);
+Route::get('/admin/update_payment_status/{status}/{id}', [OrderController::class, 'orderPaymentChange']);
+
+// -------review-------
+
+Route::get('/admin/review', [ReviewController::class, 'review']);
+Route::get('/admin/review/status/{status}/{id}', [ReviewController::class, 'status']);
+
 });
 Route::get('/admin/logout', function () {
     session()->forget('ADMIN_LOGIN');
@@ -129,6 +144,29 @@ Route::get('product/{slug}', [FrontController::class, 'product']);
      //add-to-cart
 Route::post('add-to-cart', [FrontController::class, 'addToCart']);
 Route::get('cart', [FrontController::class, 'showCart']);
+Route::get('category/{slug}', [FrontController::class, 'showCategory']);
+     //search
+Route::get('search/{str}', [FrontController::class, 'search']);
+Route::get('register', [FrontController::class, 'registration']);
+Route::post('add-customer', [FrontController::class, 'registrationProcess']);
+Route::post('login', [FrontController::class, 'login']);
+Route::get('/logout', function () {
+    session()->forget('FRONT_USER_LOGIN');
+    session()->forget('FRONT_USER_ID');
+    session()->forget('FRONT_USER_NAME');
+    session()->forget('TEMP_USER_ID');
+    return redirect('/');
+    });
+Route::post('forgot', [FrontController::class, 'forgot_password']);
+         //checkout
+Route::get('checkout', [FrontController::class, 'checkout']);
+Route::post('apply-coupon-code', [FrontController::class, 'applyCoupon']);
+Route::post('remove-coupon-code', [FrontController::class, 'removeCoupon']);
+Route::post('place-order', [FrontController::class, 'placeOrder']);
+Route::get('order-placed', [FrontController::class, 'orderPlaced'])->middleware('user_auth');
+Route::get('my-orders', [FrontController::class, 'myOrders'])->middleware('user_auth');
+Route::get('order-detail/{id}', [FrontController::class, 'orderDetails'])->middleware('user_auth');
+Route::post('product-review', [FrontController::class, 'productReview']);
 
 
 

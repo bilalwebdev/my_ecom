@@ -19,14 +19,16 @@ class CreateCustomersTable extends Migration
             $table->string('email');
             $table->string('password');
             $table->string('mobile');
-            $table->string('address');
-            $table->string('city');
-            $table->string('state');
-            $table->string('country');
-            $table->string('zip');
-            $table->string('company');
-            $table->string('gstin');
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('country')->nullable();
+            $table->string('zip')->nullable();
+            $table->string('company')->nullable();
+            $table->string('gstin')->nullable();
             $table->string('status');
+            $table->string('rand_id');
+            $table->integer('is_verify');
             $table->timestamps();
         });
     }

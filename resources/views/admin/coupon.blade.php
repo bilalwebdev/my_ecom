@@ -20,7 +20,7 @@
         <div class="row m-t-30">
             <div class="col-md-12">
             <div class="table-responsive m-b-40">
-                <table class="table table-light">
+                <table class="table table-borderless table-data3">
                     <thead class="thead-dark">
                         <tr>
                             <th>SR#</th>

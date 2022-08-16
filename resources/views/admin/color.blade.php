@@ -17,9 +17,9 @@
             <button type="button" class="btn btn-success mt-3">  <i class="fa fa-plus"></i> Add Color</button>
         </a>
         <div class="row m-t-30">
-            <div class="col-lg-8">
+            <div class="col-lg-12">
             <div class="table-responsive m-b-40">
-                <table class="table table-light">
+                <table class="table table-borderless table-data3">
                     <thead class="thead-dark">
                         <tr>
                             <th>SR#</th>

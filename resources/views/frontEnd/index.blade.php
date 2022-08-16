@@ -77,34 +77,51 @@
           <div class="row">
             <div class="aa-product-area-category-area">
                 <!-- start prduct navigation -->
+                @php
+                $loop_count=1;
+                $cat_class=0;
+              @endphp
                  <ul class="nav nav-tabs aa-products-tab">
                     @foreach ($home_categories as $list)
-                    <li class=""><a href="#cat{{ $list->id }}" data-toggle="tab">{{ $list->category_name }}</a></li>
+                    @php
+                    if($loop_count==1)
+                    {
+                        $cat_class = 'active';
+                        $loop_count++;
+                    }
+                    else {
+                        $cat_class = "";
+                    }
+
+                @endphp
+                    <li class="{{ $cat_class }}"><a href="#cat{{ $list->id }}" data-toggle="tab">{{ $list->category_name }}</a></li>
                     @endforeach
                   </ul>
                   <!-- Tab panes -->
                   <div class="tab-content">
                     <!-- Start men product category -->
                     @php
-                      $loop_count=1;
-                    @endphp
+                    $loop_count=1;
+                    $cat_class=0;
+                  @endphp
                     @foreach ($home_categories as $list)
                     @php
-                        if($loop_count==1)
-                        {
-                            $cat_class = "in active";
-                            $loop_count++;
-                        }
-                        else {
-                            $cat_class = "";
-                        }
-                    @endphp
-                    <div class="tab-pane fade {{ $cat_class }}" id="cat{{ $list->id }}">
+                    if($loop_count==1)
+                    {
+                        $cat_class = 'in active';
+                        $loop_count++;
+                    }
+                    else {
+                        $cat_class = "";
+                    }
+
+                @endphp
+                    <div class="tab-pane fade{{ $cat_class }}" id="cat{{ $list->id }}">
                         <ul class="aa-product-catg">
                         <!-- start single product item -->
                         @if (isset($home_categories_product[$list->id][0]))
                         @foreach ($home_categories_product[$list->id] as $product)
-                        <li>
+                        <li >
                           <figure>
                             <a class="aa-product-img" href="{{ url('product/'.$product->slug) }}"><img src="{{ url('storage/media/'.$product->image) }}" alt="polo shirt img"></a>
                             <a class="aa-add-card-btn"href="javascript:void(0)" onclick="home_add_to_cart( '{{ $product->id }}', '{{  $home_product_attr[$product->id][0]->size }}', '{{  $home_product_attr[$product->id][0]->color }}')"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
@@ -155,12 +172,12 @@
                    <div class="tab-pane fade in active" id="featured">
                     <ul class="aa-product-catg aa-featured-slider">
                        <!-- start single product item -->
-                       @if (isset($home_featured_product[$list->id][0]))
-                       @foreach ($home_featured_product[$list->id] as $product)
+                       @if (isset($home_featured_product[0][0]))
+                       @foreach ($home_featured_product[0] as $product)
                        <li>
                          <figure>
                            <a class="aa-product-img" href="{{ url('product/'.$product->slug) }}"><img src="{{ url('storage/media/'.$product->image) }}" alt="polo shirt img"></a>
-                           <a class="aa-add-card-btn"href="{{ url('product/'.$product->slug) }}"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                           <a class="aa-add-card-btn"href="javascript:void(0)" onclick="home_add_to_cart( '{{ $product->id }}', '{{  $home_product_attr[$product->id][0]->size }}', '{{  $home_product_attr[$product->id][0]->color }}')"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                              <figcaption>
                              <h4 class="aa-product-title"><a href="{{ url('product/'.$product->slug) }}">{{ $product->name }}</a></h4>
                              <span class="aa-product-price">Rs{{ $home_featured_product_attr[$product->id][0]->price }} </span>
@@ -172,7 +189,7 @@
                         @else
                            <li>
                                <div class="alert alert-info" role="alert" style="justify-content: center">
-                                   No product in category this yet!
+                                   No product in this category yet!
                                </div>
                            </li>
                        @endif
@@ -183,12 +200,12 @@
                 <div class="tab-pane fade" id="tranding">
                   <ul class="aa-product-catg aa-tranding-slider">
                     <!-- start single product item -->
-                    @if (isset($home_tranding_product[$list->id][0]))
-                    @foreach ($home_tranding_product[$list->id] as $product)
+                    @if (isset($home_tranding_product[0][0]))
+                    @foreach ($home_tranding_product[0] as $product)
                     <li>
                       <figure>
                         <a class="aa-product-img" href="{{ url('product/'.$product->slug) }}"><img src="{{ url('storage/media/'.$product->image) }}" alt="polo shirt img"></a>
-                        <a class="aa-add-card-btn"href="{{ url('product/'.$product->slug) }}"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                        <a class="aa-add-card-btn"href="javascript:void(0)" onclick="home_add_to_cart( '{{ $product->id }}', '{{  $home_product_attr[$product->id][0]->size }}', '{{  $home_product_attr[$product->id][0]->color }}')"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                           <figcaption>
                           <h4 class="aa-product-title"><a href="{{ url('product/'.$product->slug) }}">{{ $product->name }}</a></h4>
                           <span class="aa-product-price">Rs{{ $home_tranding_product_attr[$product->id][0]->price }} </span>
@@ -214,12 +231,12 @@
                 <div class="tab-pane fade " id="discounted">
                   <ul class="aa-product-catg aa-discounted-slider">
                     <!-- start single product item -->
-                    @if (isset($home_discounted_product[$list->id][0]))
-                    @foreach ($home_discounted_product[$list->id] as $product)
+                    @if (isset($home_discounted_product[0][0]))
+                    @foreach ($home_discounted_product[0] as $product)
                     <li>
                       <figure>
                         <a class="aa-product-img" href="{{ url('product/'.$product->slug) }}"><img src="{{ url('storage/media/'.$product->image) }}" alt="polo shirt img"></a>
-                        <a class="aa-add-card-btn"href="{{ url('product/'.$product->slug) }}"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                        <a class="aa-add-card-btn"href="javascript:void(0)" onclick="home_add_to_cart( '{{ $product->id }}', '{{  $home_product_attr[$product->id][0]->size }}', '{{  $home_product_attr[$product->id][0]->color }}')"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                           <figcaption>
                           <h4 class="aa-product-title"><a href="{{ url('product/'.$product->slug) }}">{{ $product->name }}</a></h4>
                           <span class="aa-product-price">Rs{{ $home_discounted_product_attr[$product->id][0]->price }} </span>

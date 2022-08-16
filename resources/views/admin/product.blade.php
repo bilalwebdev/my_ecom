@@ -17,14 +17,14 @@
         <a href="manage-product">
             <button type="button" class="btn btn-success mt-3">
                 <i class="fa fa-plus"></i>
-                Add New Product
+                Add Product
             </button>
         </a>
         <div class="row m-t-30">
             <div class="col-md-12">
             <div class="table-responsive m-b-40">
-                <table class="table  table-light ">
-                    <thead class="thead-dark">
+                <table class="table table-borderless table-data3 ">
+                    <thead>
                         <tr>
                             <th>SR#</th>
                             <th>Name</th>

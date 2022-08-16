@@ -41,17 +41,28 @@
                        </tr>
                      </thead>
                      <tbody>
+                         @php
+                            $total=0;
+                         @endphp
                          @foreach ($cart_data as $data)
                          <tr id="cart_box{{ $data->attr_id }}">
                             <td><a class="remove" href="javascript:void(0)" onclick="deleteCartProduct('{{ $data->pid }}', '{{ $data->size }}', '{{ $data->color }}' ,'{{ $data->attr_id }}')"><fa class="fa fa-close"></fa></a></td>
                             <td><a href="{{ url('product/'.$data->slug) }}"><img src="{{ url('storage/media/'.$data->image) }}" alt="img"></a></td>
-                            <td><a class="aa-cart-title" href="{{ url('product/'.$data->slug) }}">{{ $data->name }}</a></td>
+                            <td><a class="aa-cart-title" href="{{ url('product/'.$data->slug) }}">{{ $data->name }}</a>
+                                <br>
+                                <span class="">{{ $data->color }}</span>
+                                <br>
+                                <span class="">{{ $data->size }}</span>
+                            </td>
                             <td>Rs {{ $data->price }}</td>
                             <td><input class="aa-cart-quantity" type="number" id="qty{{ $data->attr_id }}" value="{{ $data->qty }}" onchange="updateQty('{{ $data->pid }}', '{{ $data->size }}', '{{ $data->color }}' ,'{{ $data->attr_id }}', '{{ $data->price }}')"></td>
                             <td id="total_price_{{ $data->attr_id }}">Rs {{ $data->price*$data->qty }}</td>
                           </tr>
+                          @php
+                            $total+=$data->price*$data->qty;
+                          @endphp
                          @endforeach
-                       <tr>
+                       {{-- <tr>
                          <td colspan="6" class="aa-cart-view-bottom">
                            <div class="aa-cart-coupon">
                              <input class="aa-coupon-code" type="text" placeholder="Coupon">
@@ -59,31 +70,21 @@
                            </div>
                            <input class="aa-cart-view-btn" type="submit" value="Update Cart">
                          </td>
-                       </tr>
+                       </tr> --}}
                        </tbody>
                    </table>
                  </div>
-                 @else
-                  <h3>Cart is empty!</h3>
-                 @endif
               </form>
               <!-- Cart Total view -->
               <div class="cart-view-total">
-                <h4>Cart Totals</h4>
-                <table class="aa-totals-table">
-                  <tbody>
-                    <tr>
-                      <th>Subtotal</th>
-                      <td>$450</td>
-                    </tr>
-                    <tr>
-                      <th>Total</th>
-                      <td>$450</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <a href="#" class="aa-cart-view-btn">Proced to Checkout</a>
+                <a href="{{ url('/checkout') }}" class="aa-cart-view-btn">Proced to Checkout</a>
               </div>
+              @else
+              <div class="row order-placed" >
+
+                <h2>Your cart is empty :(</h2>
+            </div>
+             @endif
             </div>
           </div>
         </div>

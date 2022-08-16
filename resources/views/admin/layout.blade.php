@@ -12,29 +12,14 @@
     <!-- Title Page-->
     @stack('title');
 
-    <!-- Fontfaces CSS-->
-   <!-- <link rel="stylesheet" href="{{ url('backend/font-awesome/css/font-awesome.min.css') }}" media="all">-->
-    <link href="{{ url('backend/css/font-face.css" rel="stylesheet')}}" media="all">
-    <link href="{{ url('backend/vendor/font-awesome-4.7/css/font-awesome.min.css')}}" rel="stylesheet" media="all">
-    <link href="{{ url('backend/vendor/font-awesome-5/css/fontawesome-all.min.css')}}" rel="stylesheet" media="all">
-    <link href="{{ url('backend/vendor/mdi-font/css/material-design-iconic-font.min.css')}}" rel="stylesheet" media="all">
 
-    <!-- Bootstrap CSS-->
-    <link href="{{ url('backend/vendor/bootstrap-4.1/bootstrap.min.css')}}" rel="stylesheet" media="all">
-
-    <!-- Vendor CSS-->
-    <link href="{{ url('backend/vendor/animsition/animsition.min.css')}}" rel="stylesheet" media="all">
-    <link href="{{ url('backend/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css')}}" rel="stylesheet" media="all">
-    <link href="{{ url('backend/vendor/wow/animate.css')}}" rel="stylesheet" media="all">
-    <link href="{{ url('backend/vendor/css-hamburgers/hamburgers.min.css')}}" rel="stylesheet" media="all">
-    <link href="{{ url('backend/vendor/slick/slick.css')}}" rel="stylesheet" media="all">
-    <link href="{{ url('backend/vendor/select2/select2.min.css')}}" rel="stylesheet" media="all">
-    <link href="{{ url('backend/vendor/perfect-scrollbar/perfect-scrollbar.css')}}" rel="stylesheet" media="all">
-
-    <!-- Main CSS-->
-    <link href="{{ url('backend/css/theme.css')}}" rel="stylesheet" media="all">
-
-
+    <link href="{{asset('backend/css/font-face.css')}}" rel="stylesheet" media="all">
+    <link href="{{asset('backend/vendor/font-awesome-4.7/css/font-awesome.min.css')}}" rel="stylesheet" media="all">
+    <link href="{{asset('backend/vendor/font-awesome-5/css/fontawesome-all.min.css')}}" rel="stylesheet" media="all">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="{{asset('backend/vendor/mdi-font/css/material-design-iconic-font.min.css')}}" rel="stylesheet" media="all">
+    <link href="{{asset('backend/vendor/bootstrap-4.1/bootstrap.min.css')}}" rel="stylesheet" media="all">
+    <link href="{{asset('backend/css/theme.css')}}" rel="stylesheet" media="all">
 </head>
 
 <body>
@@ -59,17 +44,17 @@
                 <div class="container-fluid">
                     <ul class="navbar-mobile__list list-unstyled">
                         <li class="has-sub">
-                            <a class="js-arrow" href="dashboard">
+                            <a class="js-arrow" href="{{ url('admin/dashboard') }}">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
 
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="category">
+                            <a class="js-arrow" href="{{ url('admin/category') }}">
                                 <i class="fas fa-list"></i>Category</a>
 
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="coupon">
+                            <a class="js-arrow" href="{{ url('admin/coupon') }}">
                                 <i class="fas fa-tag"></i>Coupon</a>
 
                         </li>
@@ -78,29 +63,33 @@
                                 <i class="fas fa-images"></i>Banner</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="size">
+                            <a class="js-arrow" href="{{ url('admin/size') }}">
                                 <i class="fas fa-window-maximize"></i>Size</a>
 
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="color">
+                            <a class="js-arrow" href="{{ url('admin/color') }}">
                                 <i class="fas fa-paint-brush"></i>Color</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="brand">
+                            <a class="js-arrow" href="{{ url('/category') }}">
                                 <i class="fas fa-bold"></i>Brand</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="product">
-                                <i class="fa fa-product_hunt"></i>Product</a>
+                            <a class="js-arrow" href="{{ url('admin/product') }}">
+                                <i class="fa fa-"></i>Product</a>
+                        </li>
+                        <li class="has-sub">
+                            <a class="js-arrow" href="{{ url('admin/order') }}">
+                                <i class="fa fa-user"></i>Orders</a>
                         </li>
                         <li class="has-sub">
                             <a class="js-arrow" href="{{ url('admin/tax') }}">
                                 <i class="fa fa-percent"></i>Tax</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="customer">
-                                <i class="fa fa-user"></i>User</a>
+                            <a class="js-arrow" href="{{ url('admin/customer') }}">
+                                <i class="fa fa-user"></i>Customer</a>
                         </li>
                     </ul>
                 </div>
@@ -119,15 +108,15 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="@yield('dash')">
-                            <a href="dashboard">
+                            <a href="{{ url('admin/dashboard') }}">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                         </li>
                         <li class="@yield('cate')">
-                            <a href="category">
+                            <a href="{{ url('admin/category') }}">
                                 <i class="fas fa-list"></i>Category</a>
                         </li>
                         <li class="@yield('coupon')">
-                            <a href="coupon">
+                            <a href="{{ url('admin/coupon') }}">
                                 <i class="fas fa-tag"></i>Coupon</a>
                         </li>
                         <li class="@yield('banner')">
@@ -135,23 +124,31 @@
                                 <i class="fas fa-images"></i>Banner</a>
                         </li>
                         <li class="@yield('size')">
-                            <a href="size">
+                            <a href="{{ url('admin/size') }}">
                                 <i class="fas fa-window-maximize"></i>Size</a>
                         </li>
                         <li class="@yield('color')">
-                            <a href="color">
+                            <a href="{{ url('admin/color') }}">
                                 <i class="fas fa-paint-brush"></i>Color</a>
                         </li>
                         <li class="@yield('brand')">
-                            <a  href="brand">
+                            <a  href="{{ url('admin/brand') }}">
                                 <i class="fa fa-bold"></i>Brand</a>
                         </li>
                         <li class="@yield('product')">
-                            <a href="product">
-                                <i class="fa fa-circle-p"></i>Product</a>
+                            <a href="{{ url('admin/product') }}">
+                                <i class="fa fa-product-hunt"></i>Product</a>
+                        </li>
+                        <li class="@yield('review')">
+                            <a class="js-arrow" href="{{ url('admin/review') }}">
+                                <i class="fa fa-comment"></i>Reviews</a>
+                        </li>
+                        <li class="@yield('order')">
+                            <a class="js-arrow" href="{{ url('admin/order') }}">
+                                <i class="fa fa-shopping-cart"></i>Orders</a>
                         </li>
                          <li  class="@yield('tax')">
-                            <a  href="tax">
+                            <a  href="{{ url('admin/tax') }}">
                                 <i class="fa fa-percent"></i>Tax</a>
                          </li>
                          <li class="@yield('customer')">
@@ -220,25 +217,11 @@
     </div>
 
     <!-- Jquery JS-->
-    <script src="{{ url('backend/vendor/jquery-3.2.1.min.js')}}"></script>
-    <!-- Bootstrap JS-->
-    <script src="{{ url('backend/vendor/bootstrap-4.1/popper.min.js')}}"></script>
-    <script src="{{ url('backend/vendor/bootstrap-4.1/bootstrap.min.js')}}"></script>
-    <!-- Vendor JS       -->
-    <script src="{{ url('backend/vendor/slick/slick.min.js')}}">
-    </script>
-    <script src="{{ url('backend/vendor/wow/wow.min.js')}}"></script>
-    <script src="{{ url('backend/vendor/animsition/animsition.min.js')}}"></script>
-    <script src="{{ url('backend/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js')}}">
-    </script>
-    <script src="{{ url('backend/vendor/counter-up/jquery.waypoints.min.js')}}"></script>
-    <script src="{{ url('backend/vendor/counter-up/jquery.counterup.min.js')}}">
-    </script>
-    <script src="{{ url('backend/vendor/circle-progress/circle-progress.min.js')}}"></script>
-    <script src="{{ url('backend/vendor/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
-    <script src="{{ url('backend/vendor/chartjs/Chart.bundle.min.js')}}"></script>
-    <script src="{{ url('backend/vendor/select2/select2.min.js')}}">
-    </script>
+    <script src="{{asset('backend/vendor/jquery-3.2.1.min.js')}}"></script>
+    <script src="{{asset('backend/vendor/bootstrap-4.1/popper.min.js')}}"></script>
+    <script src="{{asset('backend/vendor/bootstrap-4.1/bootstrap.min.js')}}"></script>
+    <script src="{{asset('backend/vendor/wow/wow.min.js')}}"></script>
+    <script src="{{asset('backend/js/main.js')}}"></script>
 
     <!-- Main JS-->
     <script src="{{ url('backend/js/main.js')}}"></script>

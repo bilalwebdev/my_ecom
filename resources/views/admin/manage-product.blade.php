@@ -11,16 +11,15 @@
  @endif
     <form action="{{ $url }}" method="post" novalidate="novalidate" enctype="multipart/form-data" class="form-dark">
         @csrf
-        <script src="{{ url('ckeditor5/ckeditor.js') }}"></script>
         <div class="row">
          <div class="col-lg-12">
+            <h1 class="mb10">Manage Product</h1>
+            <a href="product">
+                <button type="button" class="btn btn-success mb-3" >Back</button>
+            </a>
+            <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
             <div class="card">
               <div class="card-body">
-                <h1 class="mb10">Manage Product</h1>
-                    <a href="product">
-                        <button type="button" class="btn btn-success" >All Products</button>
-                    </a>
-                 <hr>
                      <div class="form-group">
                         <div class="row">
                         <div class="col-md-6">
@@ -111,7 +110,7 @@
                                 </div>
                             </div>
                             <label for="short_desc" class="control-label mb-1">Short Description</label>
-                            <textarea id="short_desc" name="short_desc" type="text" class="form-control" aria-required="true" aria-invalid="false"  required>{{ $product->short_desc }}</textarea>
+                            <textarea id="short_desc" name="short_desc" type="text" class="form-control" aria-required="true" rows="7" aria-invalid="false"  required>{{ $product->short_desc }}</textarea>
                             <span class="text-danger">
                                 @error('short_desc')
                                 {{$message}}
@@ -119,7 +118,7 @@
                         </div>
                         <div class="form-group">
                             <label for="desc" class="control-label mb-1">Description</label>
-                            <textarea id="desc" name="desc" type="text" class="form-control" aria-required="true" aria-invalid="false" required>{{ $product->desc }}</textarea>
+                            <textarea id="desc" name="desc" type="text" class="form-control" aria-required="true" rows="7" aria-invalid="false" required>{{ $product->desc }}</textarea>
                             <span class="text-danger">
                                 @error('desc')
                                 {{$message}}
@@ -135,7 +134,7 @@
                                 </div>
                             <div class="form-group">
                                 <label for="technical_specifications" class="control-label mb-1">Technical Specifications</label>
-                                <textarea id="technical_specifications" name="technical_specifications" type="text" class="form-control" aria-required="true" aria-invalid="false"  required>{{ $product->technical_specifications }}</textarea>
+                                <textarea id="technical_specifications" name="technical_specifications" rows="7" type="text" class="form-control" aria-required="true" aria-invalid="false"  required>{{ $product->technical_specifications }}</textarea>
                                 <span class="text-danger">
                                 @error('technical_specifications')
                                     {{$message}}
@@ -425,6 +424,7 @@
         </div>
         </form>
 <script>
+
     var loop_count = 1;
     function addmore()
     {
@@ -485,7 +485,9 @@
             jQuery('#product_img_'+loop_count).remove();
         }
 
-        CKEDITOR.replace('desc');
+        CKEDITOR.replace('short_desc');
+   CKEDITOR.replace('desc');
+   CKEDITOR.replace('technical_specifications');
 
 </script>
 @endsection

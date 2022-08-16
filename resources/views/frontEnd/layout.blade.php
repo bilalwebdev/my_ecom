@@ -4,33 +4,23 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" id="csrf-token" content="{{ csrf_token() }}">
     @stack('title')
 
     <!-- Font awesome -->
-    <link href="{{ asset('frontend/css/font-awesome.css') }}" rel="stylesheet">
-    <!-- Bootstrap -->
-    <link href="{{ asset('frontend/css/bootstrap.css') }}" rel="stylesheet">
-    <!-- SmartMenus jQuery Bootstrap Addon CSS -->
-    <link href="{{ asset('frontend/css/jquery.smartmenus.bootstrap.css') }}" rel="stylesheet">
-    <!-- Product view slider -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/jquery.simpleLens.css') }}">
-    <!-- slick slider -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/slick.css') }}">
-    <!-- price picker slider -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/nouislider.css') }}">
-    <!-- Theme color -->
-    <link id="switcher" href="{{ asset('frontend/css/theme-color/default-theme.css') }}" rel="stylesheet">
-    <!-- <link id="switcher" href="{{ asset('frontend/css/theme-color/bridge-theme.css') }}" rel="stylesheet"> -->
-    <!-- Top Slider CSS -->
-    <link href="{{ asset('frontend/css/sequence-theme.modern-slide-in.css') }}" rel="stylesheet" media="all">
-
-    <!-- Main style sheet -->
-    <link href="{{ asset('frontend/css/style.css') }}" rel="stylesheet">
+    <link href="{{asset('frontend/css/font-awesome.css')}}" rel="stylesheet">
+    <link href="{{asset('frontend/css/bootstrap.css')}}" rel="stylesheet">
+    <link href="{{asset('frontend/css/jquery.smartmenus.bootstrap.css')}}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{asset('frontend/css/jquery.simpleLens.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('frontend/css/slick.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('frontend/css/nouislider.css')}}">
+    <link id="switcher" href="{{asset('frontend/css/theme-color/default-theme.css')}}" rel="stylesheet">
+    <link href="{{asset('frontend/css/sequence-theme.modern-slide-in.css')}}" rel="stylesheet" media="all">
+    <link href="{{asset('frontend/css/style.css')}}" rel="stylesheet">
 
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -39,10 +29,12 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <script>
+      var image_path = "{{ url('storage/media/') }}";
+    </script>
 
   </head>
-  <body>
+  <body class="productPage">
    <!-- wpf loader Two -->
     <div id="wpf-loader-two">
       <div class="wpf-loader-two-inner">
@@ -103,11 +95,15 @@
               <!-- / header top left -->
               <div class="aa-header-top-right">
                 <ul class="aa-head-top-nav-right">
-                  <li><a href="#">My Account</a></li>
-                  <li class="hidden-xs"><a href="#">Wishlist</a></li>
+
                   <li class="hidden-xs"><a href="{{ url('/cart') }}">My Cart</a></li>
                   <li class="hidden-xs"><a href="#">Checkout</a></li>
+                  @if (session()->has('FRONT_USER_LOGIN'))
+                  <li><a href="{{ url('/my-orders') }}">My Orders</a></li>
+                  <li><a href="{{ url('/logout') }}">Logout</a></li>
+                  @else
                   <li><a href="" data-toggle="modal" data-target="#login-modal">Login</a></li>
+                  @endif
                 </ul>
               </div>
             </div>
@@ -136,13 +132,13 @@
               <!-- / logo  -->
                <!-- cart box -->
               <div class="aa-cartbox">
-                <a class="aa-cart-link" href="#">
+                <a class="aa-cart-link" href="#" id="cartBox">
                   <span class="fa fa-shopping-basket"></span>
                   <span class="aa-cart-title">SHOPPING CART</span>
                   <span class="aa-cart-notify">{{ count(getCartItems()) }}</span>
                 </a>
-                @if( count(getCartItems()) > 0)
                 <div class="aa-cartbox-summary">
+                @if( count(getCartItems()) > 0)
                     @php
                     $t_price=0;
                     @endphp
@@ -154,7 +150,6 @@
                               <h4><a href="#">{{ $item->name }}</a></h4>
                               <p>{{ $item->qty }} x {{ $item->price }}</p>
                             </div>
-                            <a class="aa-remove-product"  href="javascript:void(0)" onclick="deletePopUpCartProduct('{{ $item->pid }}', '{{ $item->size }}', '{{ $item->color }}', '{{ $item->attr_id }}')"><span class="fa fa-times"></span></a>
                           </li>
                           @php
                               $t_price = $t_price+$item->qty* $item->price;
@@ -170,16 +165,16 @@
                           </li>
 
                     </ul>
-                    <a class="aa-cartbox-checkout aa-primary-btn" href="{{ url('/checkout') }}">Checkout</a>
-                  </div>
+                    <a class="aa-cartbox-checkout aa-primary-btn" href="{{ url('/cart') }}">Go to Cart</a>
                   @endif
+                </div>
               </div>
               <!-- / cart box -->
               <!-- search box -->
               <div class="aa-search-box">
                 <form action="">
-                  <input type="text" name="" id="" placeholder="Search here ex. 'man' ">
-                  <button type="submit"><span class="fa fa-search"></span></button>
+                  <input type="text" name="" id="search_bar" placeholder="Search here ex. 'man' ">
+                  <button type="button" onclick="funSearch()"><span class="fa fa-search"></span></button>
                 </form>
               </div>
               <!-- / search box -->
@@ -214,7 +209,7 @@
     </div>
   </section>
   <!-- / menu -->
-                    @yield('content');
+                    @yield('content')
   <!-- / Subscribe section -->
 
   <!-- footer -->
@@ -296,7 +291,7 @@
         <div class="row">
         <div class="col-md-12">
           <div class="aa-footer-bottom-area">
-            <p>Designed by <a href="http://www.markups.io/">MarkUps.io</a></p>
+            <p>Designed by Bilal</p>
             <div class="aa-footer-payment">
               <span class="fa fa-cc-mastercard"></span>
               <span class="fa fa-cc-visa"></span>
@@ -310,53 +305,74 @@
     </div>
   </footer>
   <!-- / footer -->
-
+   @php
+       if(isset($_COOKIE['login_email']) && isset($_COOKIE['login_password']))
+       {
+          $email = $_COOKIE['login_email'];
+          $password = $_COOKIE['login_password'];
+          $is_remember = "checked='true'";
+       }
+       else
+       {
+           $email = '';
+           $password = '';
+           $is_remember = '';
+       }
+   @endphp
   <!-- Login Modal -->
+  .
   <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4>Login or Register</h4>
-          <form class="aa-login-form" action="">
-            <label for="">Username or Email address<span>*</span></label>
-            <input type="text" placeholder="Username or email">
-            <label for="">Password<span>*</span></label>
-            <input type="password" placeholder="Password">
-            <button class="aa-browse-btn" type="submit">Login</button>
-            <label for="rememberme" class="rememberme"><input type="checkbox" id="rememberme"> Remember me </label>
-            <p class="aa-lost-password"><a href="#">Lost your password?</a></p>
-            <div class="aa-register-now">
-              Don't have an account?<a href="account.html">Register now!</a>
-            </div>
-          </form>
+          <div id="popup_login">
+            <h4>Login or Register</h4>
+            <form class="aa-login-form" id="frmLogin">
+              @csrf
+              <label for="">Email address<span>*</span></label>
+              <input type="email" name="email" placeholder="Email" value="{{ $email }}" required>
+              <label for="">Password<span>*</span></label>
+              <input type="password" name="password" placeholder="Password" value="{{ $password }}" required>
+              <button class="aa-browse-btn" type="submit" id="btnLogin">Login</button>
+              <label for="rememberme" class="rememberme"><input type="checkbox" id="rememberme" name="remember_me" {{ $is_remember }}> Remember me </label>
+              <div id="login_msg" ></div>
+              <p class="aa-lost-password" onclick="forgot_password()"><a href="javascript:void(0)">Lost your password?</a></p>
+              <div class="aa-register-now">
+                Don't have an account?<a href="{{ url('/register') }}">Register now!</a>
+              </div>
+            </form>
+          </div>
+          <div id="popup_forgot" style="display: none">
+            <h4>Forgot Password</h4>
+            <form class="aa-login-form" id="frmForgot">
+              @csrf
+              <label for="">Email address<span>*</span></label>
+              <input type="email" name="email" placeholder="Email" required>
+              <button class="aa-browse-btn" type="submit" id="btnForgot">Submit</button>
+              <div id="forgot_msg" ></div>
+              <div class="aa-register-now">
+             Do you want to login?<a href="javascript:void(0)" onclick="login_modal()">Login now!</a>
+              </div>
+            </form>
+          </div>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div>
 
-  <!-- jQuery library -->
-  <script src="{{ url('https://ajax.googleapis.com') }}/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="{{ asset('frontend/js/bootstrap.js') }}"></script>
-  <!-- SmartMenus jQuery plugin -->
-  <script type="text/javascript" src="{{ asset('frontend/js/jquery.smartmenus.js') }}"></script>
-  <!-- SmartMenus jQuery Bootstrap Addon -->
-  <script type="text/javascript" src="{{ asset('frontend/js/jquery.smartmenus.bootstrap.js') }}"></script>
-  <!-- To Slider JS -->
-  <script src="{{ asset('frontend/js/sequence.js') }}"></script>
-  <script src="{{ asset('frontend/js/sequence-theme.modern-slide-in.js') }}"></script>
-  <!-- Product view slider -->
-  <script type="text/javascript" src="{{ asset('frontend/js/jquery.simpleGallery.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('frontend/js/jquery.simpleLens.js') }}"></script>
-  <!-- slick slider -->
-  <script type="text/javascript" src="{{ asset('frontend/js/slick.js') }}"></script>
-  <!-- Price picker slider -->
-  <script type="text/javascript" src="{{ asset('frontend/js/nouislider.js') }}"></script>
-  <!-- Custom js -->
-  <script src="{{ asset('frontend/js/custom.js') }}"></script>
-
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></s
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="{{asset('frontend/js/bootstrap.js')}}"></script>
+  <script type="text/javascript" src="{{asset('frontend/js/jquery.smartmenus.js')}}"></script>
+  <script type="text/javascript" src="{{asset('frontend/js/jquery.smartmenus.bootstrap.js')}}"></script>
+  <script src="{{asset('frontend/js/sequence.js')}}"></script>
+  <script src="{{asset('frontend/js/sequence-theme.modern-slide-in.js')}}"></script>
+  <script type="text/javascript" src="{{asset('frontend/js/jquery.simpleGallery.js')}}"></script>
+  <script type="text/javascript" src="{{asset('frontend/js/jquery.simpleLens.js')}}"></script>
+  <script type="text/javascript" src="{{asset('frontend/js/slick.js')}}"></script>
+  <script type="text/javascript" src="{{asset('frontend/js/nouislider.js')}}"></script>
+  <script src="{{asset('frontend/js/custom.js')}}"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
   <script>
@@ -386,7 +402,6 @@
 </script>
 @endforeach
 @endif
-  </script>
   @stack('scripts')
   </body>
 </html>
